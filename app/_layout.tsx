@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { ClerkProvider } from "@clerk/clerk-expo";
+import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 
 import * as SecureStore from "expo-secure-store";
 
@@ -47,6 +47,7 @@ const InitialLayout = () => {
 		...FontAwesome.font,
 	});
 	const router = useRouter();
+	const { isLoaded, isSignedIn } = useAuth();
 
 	// Define stack options
 	const stackOptions = {
@@ -71,6 +72,10 @@ const InitialLayout = () => {
 			SplashScreen.hideAsync();
 		}
 	}, [loaded]);
+
+	useEffect(() => {
+		console.log("isSignedIn", isSignedIn);
+	}, [isSignedIn]);
 
 	if (!loaded) {
 		return null;

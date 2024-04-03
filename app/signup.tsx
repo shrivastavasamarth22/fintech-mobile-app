@@ -20,17 +20,18 @@ const Page = () => {
 
 	const onSignup = async () => {
 		const fullPhoneNumber = `${countryCode}${phoneNumber}`;
-		// try {
-		// 	await signUp!.create({
-		// 		phoneNumber: fullPhoneNumber,
-		// 	});
-		router.push({
-			pathname: "/verify/[phone]",
-			params: { phone: fullPhoneNumber },
-		});
-		// } catch (error) {
-		// 	console.error("Sign up failed", error);
-		// }
+		try {
+			await signUp!.create({
+				phoneNumber: fullPhoneNumber,
+			});
+			signUp!.preparePhoneNumberVerification();
+			router.push({
+				pathname: "/verify/[phone]",
+				params: { phone: fullPhoneNumber },
+			});
+		} catch (error) {
+			console.error("Sign up failed", error);
+		}
 	};
 
 	const checkPhoneNumber = () => {
