@@ -5,13 +5,14 @@ import {
 	TextInput,
 	TouchableOpacity,
 	KeyboardAvoidingView,
+	Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useSignIn } from "@clerk/clerk-expo";
+import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
 
 enum SignInType {
 	Phone,
@@ -49,9 +50,16 @@ const Page = () => {
 
 				router.push({
 					pathname: "/verify/[phone]",
-					params: { phone: fullPhoneNumber },
+					params: { phone: fullPhoneNumber, signin: "true" },
 				});
-			} catch (error) {}
+			} catch (error) {
+				console.log("error", JSON.stringify(error, null, 2));
+				if (isClerkAPIResponseError(error)) {
+					if (error.errors[0].code === "form_identifier_not_found") {
+						Alert.alert("Error", error.errors[0].message);
+					}
+				}
+			}
 		}
 	};
 

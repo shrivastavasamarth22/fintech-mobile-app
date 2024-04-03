@@ -104,6 +104,7 @@ const InitialLayout = () => {
 					presentation: "modal",
 				}}
 			/>
+			<Stack.Screen name="verify/[phone]" options={stackOptions} />
 		</Stack>
 	);
 };
