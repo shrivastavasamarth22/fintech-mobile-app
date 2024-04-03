@@ -44,6 +44,7 @@ const Page = () => {
 						placeholderTextColor={Colors.gray}
 						keyboardType="numeric"
 						value={countryCode}
+						onChangeText={setCountryCode}
 					/>
 					<TextInput
 						style={[styles.input, { flex: 1, alignItems: "center" }]}
