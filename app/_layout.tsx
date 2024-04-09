@@ -75,7 +75,6 @@ const InitialLayout = () => {
 	}, [loaded]);
 
 	useEffect(() => {
-		console.log("isSignedIn", isSignedIn);
 		if (!isLoaded) return;
 
 		const inAuthGroup = segments[0] === "(authenticated)";
