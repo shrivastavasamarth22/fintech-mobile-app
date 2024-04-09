@@ -2,7 +2,7 @@ import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { Link, Stack, useRouter } from "expo-router";
+import { Link, Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -48,6 +48,7 @@ const InitialLayout = () => {
 	});
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
+	const segments = useSegments();
 
 	// Define stack options
 	const stackOptions = {
@@ -75,6 +76,15 @@ const InitialLayout = () => {
 
 	useEffect(() => {
 		console.log("isSignedIn", isSignedIn);
+		if (!isLoaded) return;
+
+		const inAuthGroup = segments[0] === "(authenticated)";
+
+		if (isSignedIn && !inAuthGroup) {
+			router.push("/(authenticated)/(tabs)/home");
+		} else if (!isSignedIn) {
+			router.replace("/");
+		}
 	}, [isSignedIn]);
 
 	if (!loaded || !isLoaded) {
@@ -110,6 +120,10 @@ const InitialLayout = () => {
 				}}
 			/>
 			<Stack.Screen name="verify/[phone]" options={stackOptions} />
+			<Stack.Screen
+				name="(authenticated)/(tabs)"
+				options={{ headerShown: false }}
+			/>
 		</Stack>
 	);
 };
