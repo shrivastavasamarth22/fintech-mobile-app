@@ -6,7 +6,7 @@ import { Link, Stack, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
@@ -77,8 +77,8 @@ const InitialLayout = () => {
 		console.log("isSignedIn", isSignedIn);
 	}, [isSignedIn]);
 
-	if (!loaded) {
-		return null;
+	if (!loaded || !isLoaded) {
+		return <Text>Loading...</Text>;
 	}
 
 	return (
